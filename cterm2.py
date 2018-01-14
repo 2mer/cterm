@@ -1,5 +1,6 @@
 # coding=utf-8
 import sys
+import re
 
 
 class Singleton(type):
@@ -61,7 +62,9 @@ class CTerm2:
 
     def get_string(self):
         ret = self.__current_text
-        self.clear_all()
+        # self.clear_all()
+        self.__color_stack = []
+        self.__current_text = ""
         return ret
 
     def __get_color(self, string):
@@ -251,7 +254,7 @@ class CTerm2:
                         self.clear_style()
 
                 else:
-                    self.__current_text += text
+                    self.__current_text += str(text)
 
             return self
 
@@ -288,5 +291,13 @@ hello woooooooooooooooooooorld!!"""](0)()
     cterm(color="red")["hello"](color="green")["world"](color="blue")["my"](color="208")["reddit"](color="206")["bro"](0)()
     # label square
     cterm(color="208")["hello world\nthis\nis\nnuttya", "red+"]()
+
+    cterm("%03d" % 20)()
+    cterm("%03d" % 300)()
+
+    import datetime
+
+    cterm[str(datetime.time(20, 30) > datetime.time(34, 30))]()
+
 
 
