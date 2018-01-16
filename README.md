@@ -99,12 +99,46 @@ if you want to use more diverse colors, you can also give a value from 0 to 255,
 
 ie:
 ```py
-"blue 208"
+"112 208"
 ```
 
 ### misc
-you can also use:
+you can also use the following to draw a box around text:
 ```py
 cterm(color="red")["this is rendered inside a box!"]()
 cterm(color="red")["this box is labeled!", "label"]()
+
+# or for multiline
+cterm["""\
+Hello
+World!!
+"""]()
+```
+## Bracket
+the `Bracket` class uses features given in `CTerm2` and wraps them nicely with the `__enter__` and `__exit__` magic methods
+
+### usage
+```py
+with Bracket("label 1"):
+  cterm("Hello world!")()
+  
+with Bracket("label 2", "red+ red", draw_line=False):
+  cterm("Hello world!")()
+
+  with Bracket("label 3", "green+", end_label="end label 3"):
+    cterm("Hello world!")()
+```
+
+### Braqet
+draws a bracket with equally sized ends
+```py
+with Braqet("label 1"):
+  cterm("Hello world!")()
+```
+
+### Timer
+draws a bracket, and prints the delta time it took between the `__enter__` and `__exit__` of the timer
+```py
+with Timer("label 1"):
+  cterm("Hello world!")()
 ```
