@@ -30,6 +30,12 @@ class Bracket:
         cterm(("┗━" if self.draw_line else "  ") + self.end_label, self.color)(-1)()
 
 
+class Braqet(Bracket):
+
+    def __init__(self, label, color="blue+ blue", draw_line=True):
+        Bracket.__init__(self, label, color, ("━" if draw_line else " ") * len(label), draw_line)
+
+
 class Timer(Bracket):
     """
     @p A bracket that prints the delta time between its __enter__ and __exit__
@@ -83,13 +89,16 @@ class Timer(Bracket):
 
 
 if __name__ == "__main__":
-    with Bracket("Test 1"):
-        cterm("hello world!")()
 
-    with Timer("Time 1", "green+", draw_line=True, end_label="woowoo waawaa "):
+    with Braqet("Braqet 1"):
 
-        with Bracket("Test 2"):
+        with Bracket("Test 1"):
             cterm("hello world!")()
 
-            with Bracket("Test 3"):
+        with Timer("Time 1", "green+", draw_line=True, end_label="woowoo waawaa "):
+
+            with Bracket("Test 2"):
                 cterm("hello world!")()
+
+                with Bracket("Test 3"):
+                    cterm("hello world!")()
