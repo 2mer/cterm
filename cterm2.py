@@ -256,7 +256,26 @@ class CTerm2:
                 else:
                     self.__current_text += str(text)
 
-            return self
+        return self
+
+    def set_tab(self, collection, padding=1):
+
+        max_tab = 0
+
+        for c in collection:
+            max_tab = max(len(c), max_tab)
+
+        self.__tab = max_tab + padding
+
+    def tab(self, item):
+        amt_add = self.__tab - len(item)
+
+        return item + (" " * amt_add)
+
+    def absolute_tab(self, item, amt):
+        amt_add = amt - len(item)
+
+        return item + (" " * amt_add)
 
 
 if __name__ == "__main__":
