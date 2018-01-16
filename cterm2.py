@@ -277,6 +277,16 @@ class CTerm2:
 
         return item + (" " * amt_add)
 
+    def remember(self, flush=True):
+        sys.stdout.write("\033[s")
+        if flush:
+            sys.stdout.flush()
+
+    def jump(self, flush=True):
+        sys.stdout.write("\033[u")
+        if flush:
+            sys.stdout.flush()
+
 
 if __name__ == "__main__":
 

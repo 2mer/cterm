@@ -32,8 +32,22 @@ class Bracket:
 
 class Braqet(Bracket):
 
-    def __init__(self, label, color="blue+ blue", draw_line=True):
-        Bracket.__init__(self, label, color, ("━" if draw_line else " ") * len(label), draw_line)
+    def __init__(self, label, color="blue+ blue", end_label="", draw_line=True, bq=True):
+        if bq:
+            l_start = len(label)
+            l_end = len(end_label)
+            l_max = max(l_start, l_end)
+
+            l_start = l_max - l_start
+            l_end = l_max - l_end
+
+            if l_start > 0:
+                label = label + (("━" if draw_line else " ") * l_start)
+
+            if l_end > 0:
+                label = end_label + (("━" if draw_line else " ") * l_end)
+
+        Bracket.__init__(self, label, color, end_label, draw_line)
 
 
 class Timer(Bracket):
@@ -102,3 +116,6 @@ if __name__ == "__main__":
 
                 with Bracket("Test 3"):
                     cterm("hello world!")()
+
+    with Timer("Hello", "red+ bold red", "worlder!!!"):
+        cterm("hello world!")()
