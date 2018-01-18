@@ -45,7 +45,7 @@ class Braqet(Bracket):
                 label = label + (("━" if draw_line else " ") * l_start)
 
             if l_end > 0:
-                label = end_label + (("━" if draw_line else " ") * l_end)
+                end_label = end_label + (("━" if draw_line else " ") * l_end)
 
         Bracket.__init__(self, label, color, end_label, draw_line)
 
@@ -55,6 +55,13 @@ class Timer(Bracket):
     @p A bracket that prints the delta time between its __enter__ and __exit__
     """
     _stats = {}
+
+    def __init__(self, label, color="blue+ blue", end_label="", draw_line=True, time_color=None, time_function=None):
+
+        Bracket.__init__(self, label, color, end_label, draw_line)
+
+        self.time_color = time_color
+        self.time_function = time_function
 
     def __enter__(self):
         self.time_start = time.time()
@@ -69,7 +76,7 @@ class Timer(Bracket):
 
         Timer._stats[self.label].append(delta)
 
-        self.end_label += "\xE2\x96\xB3t = " + str(delta)
+        self.end_label += (cterm.chars(self.time_color) if self.time_color is not None else "") + "\xE2\x96\xB3t = " + str(self.time_function(delta) if self.time_function is not None else delta)
 
         Bracket.__exit__(self, t, value, traceback)
 

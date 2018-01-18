@@ -1,4 +1,5 @@
 from cterm2 import CTerm2
+from bracket import Braqet
 
 cterm = CTerm2()
 
@@ -36,11 +37,20 @@ class Loader:
 
 
 if __name__ == "__main__":
+    pass
     loader = Loader(20)
+    loader2 = Loader(30, char_enabled="#", char_disabled="/")
 
     import time
 
-    for i in range(0, 10):
-        time.sleep(0.5)
-        loader.set_progress(float(i + 1) / 10)(" hello world, i is [%d/10]" % (i + 1))
-    cterm()
+    with Braqet("egg"):
+        for i in range(0, 10):
+            time.sleep(0.5)
+            loader.set_progress(float(i + 1) / 10)(" hello world, i is [%d/10]" % (i + 1))
+        cterm()
+
+        with Braqet("egg"):
+            for i in range(0, 10):
+                time.sleep(0.5)
+                loader2.set_progress(float(i + 1) / 10)(" hello world, i is [%d/10]" % (i + 1))
+            cterm()

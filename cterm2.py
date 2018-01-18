@@ -287,6 +287,54 @@ class CTerm2:
         if flush:
             sys.stdout.flush()
 
+    clear_directions = {
+        "down": 0,
+        "up": 1,
+        "all": 2
+    }
+
+    def clear(self, direction="down", flush=True):
+        """
+        @table [regex="{Name} (Description)"]
+        Directions:
+            down (from the cursor to the end of the screen)
+            up (from the cursor to the beginning of the screen)
+            all (clears entire screen)
+
+        Args:
+            direction (string): the direction to clear the screen in
+            flush (bool): whether or not to flush the screen when printing
+        """
+
+        sys.stdout.write("\033[%dJ" % CTerm2.clear_directions[direction])
+        if flush:
+            sys.stdout.flush()
+
+    def chars(self, color_string):
+        return self.__get_color(color_string)
+
+    def gradient(self, text, xy_to_color=None):
+
+        split_text = text.split("\n")
+
+        max_x = 0
+        for t in split_text:
+            max_x = max(max_x, t)
+
+        max_y = len(split_text)
+
+        grad_text = ""
+
+        if xy_to_color is None:
+            xy_to_color = lambda x, y: " ".join((33 + (round(6 * x) * 36), 45 + (round(6 * x) * 36)))
+
+        for i in range(0, max_y):
+            for j in range(0, max_x):
+                char = split_text[i][j]
+                grad_text += self.chars(xy_to_color(j, i)) + char
+
+        return grad_text + self.__reset
+
 
 if __name__ == "__main__":
 
@@ -323,10 +371,3 @@ hello woooooooooooooooooooorld!!"""](0)()
 
     cterm("%03d" % 20)()
     cterm("%03d" % 300)()
-
-    import datetime
-
-    cterm[str(datetime.time(20, 30) > datetime.time(34, 30))]()
-
-
-
